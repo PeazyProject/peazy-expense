@@ -56,7 +56,7 @@ public class MiscExpenseController {
             if (!CollectionUtils.isEmpty(request.getMiscExpenses())) {
                 for (MiscExpenseBean miscExpense : request.getMiscExpenses()) {
                     miscExpenseService.insertMiscExpense(miscExpense.getCodeKey(),
-                            miscExpense.getAmount());
+                            miscExpense.getAmount(), miscExpense.getExpenseDt());
                 }
             }
         } catch (Exception e) {
@@ -74,7 +74,8 @@ public class MiscExpenseController {
             if (!CollectionUtils.isEmpty(request.getMiscExpenses())) {
                 for (MiscExpenseBean miscExpense : request.getMiscExpenses()) {
                     miscExpenseService.updateMiscExpense(miscExpense.getSeqNo(),
-                            miscExpense.getCodeKey(), miscExpense.getAmount());
+                            miscExpense.getCodeKey(), miscExpense.getAmount(),
+                            miscExpense.getExpenseDt());
                 }
             }
         } catch (Exception e) {

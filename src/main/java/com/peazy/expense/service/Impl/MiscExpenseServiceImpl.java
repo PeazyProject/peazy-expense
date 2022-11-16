@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -28,11 +29,13 @@ public class MiscExpenseServiceImpl implements MiscExpenseService {
                 DateUtils.setCurrentDate(DateUtils.formatDate(toDate)));
     }
 
-    public void insertMiscExpense(String codeKey, String amount) {
+    public void insertMiscExpense(String codeKey, String amount, String expenseDt)
+            throws ParseException {
         MiscExpenseEntity miscExpenseEntity = new MiscExpenseEntity();
         miscExpenseEntity.setCodeKey(codeKey);
         miscExpenseEntity.setAmount(amount);
-        miscExpenseEntity.setExpenseDt(new Date());
+        miscExpenseEntity.setExpenseDt(
+                StringUtils.isNotBlank(expenseDt) ? DateUtils.formatDate(expenseDt) : new Date());
         // TODO created by & last update by can not be hard code
         miscExpenseEntity.setCreateUser("Hard Code");
         miscExpenseEntity.setUpdateUser("Hard Code");
@@ -43,13 +46,19 @@ public class MiscExpenseServiceImpl implements MiscExpenseService {
         miscExpenseRepository.deleteBySeqNoIn(seqNos);
     }
 
-    public void updateMiscExpense(long seqNo, String codeKey, String amount) {
+    public void updateMiscExpense(long seqNo, String codeKey, String amount, String expenseDt)
+            throws ParseException {
         Optional<MiscExpenseEntity> miscExpenseEntityOpt = miscExpenseRepository.findById(seqNo);
         if (miscExpenseEntityOpt.isPresent()) {
             MiscExpenseEntity miscExpenseEntity = miscExpenseEntityOpt.get();
             System.err.println(miscExpenseEntity.toString());
-            miscExpenseEntity.setCodeKey(codeKey);
-            miscExpenseEntity.setAmount(amount);
+            miscExpenseEntity.setCodeKey(
+                    StringUtils.isNotBlank(codeKey) ? codeKey : miscExpenseEntity.getCodeKey());
+            miscExpenseEntity.setAmount(
+                    StringUtils.isNotBlank(amount) ? amount : miscExpenseEntity.getAmount());
+            miscExpenseEntity.setExpenseDt(
+                    StringUtils.isNotBlank(expenseDt) ? DateUtils.formatDate(expenseDt)
+                            : miscExpenseEntity.getExpenseDt());
             miscExpenseRepository.save(miscExpenseEntity);
         }
     }

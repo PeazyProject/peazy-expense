@@ -11,4 +11,5 @@ public class MiscExpenseBean {
     private long seqNo;
     private String codeKey;
     private String amount;
+    private String expenseDt;
 }
