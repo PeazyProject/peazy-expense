@@ -15,9 +15,4 @@ public interface MiscExpenseRepository extends JpaRepository<MiscExpenseEntity, 
                         nativeQuery = true)
         public List<MiscExpenseEntity> queryExpense(@Param("createUser") String createUser,
                         @Param("fromDate") Date fromDate, @Param("toDate") Date toDate);
-
-        @Query(value = "DELETE FROM Supplier_MiscExpense WHERE SeqNo IN (:seqNos)",
-                        nativeQuery = true)
-        @Modifying
-        public void deleteBySeqNoIn(@Param("seqNos") List<Long> seqNos);
 }

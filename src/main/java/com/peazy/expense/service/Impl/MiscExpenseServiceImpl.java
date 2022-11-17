@@ -48,7 +48,9 @@ public class MiscExpenseServiceImpl implements MiscExpenseService {
     }
 
     public void deleteMiscExpenses(List<Long> seqNos) {
-        miscExpenseRepository.deleteBySeqNoIn(seqNos);
+        seqNos.forEach(seqNo -> {
+            miscExpenseRepository.deleteById(seqNo);
+        });
     }
 
     public void updateMiscExpense(long seqNo, String codeKey, String amount, String expenseDt)
