@@ -22,6 +22,16 @@
         },
         {
             "type": "java",
+            "name": "Spring Boot-ExpenseApplication<peazy-expense>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.peazy.expense.ExpenseApplication",
+            "projectName": "peazy-expense",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-ExpenseApplication<peazy-supplier>",
             "request": "launch",
             "cwd": "${workspaceFolder}",

@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.peazy.expense.exception.ErrorCodeException;
 import com.peazy.expense.model.entity.ErrorCodeEntity;
-import com.peazy.expense.model.resp.ErrorResponse;
+import com.peazy.expense.model.response.ErrorResponse;
 import com.peazy.expense.repository.ErrorCodeRepository;
+
+import org.apache.commons.lang3.StringUtils;
 
  @ControllerAdvice
  public class MyExceptionHandler {
@@ -29,8 +31,16 @@ import com.peazy.expense.repository.ErrorCodeRepository;
  	@ResponseStatus(HttpStatus.BAD_REQUEST)
  	ErrorResponse dispalyErrorMessage(ErrorCodeException ex) {
  		ErrorResponse resp = new ErrorResponse();
- 		Optional<ErrorCodeEntity> entity = errorCodeRepository.findByCategoryAndErrorCode(ex.getErrorCode().getCategory(),
- 				ex.getErrorCode().getCode());
+
+		String lang = ex.getErrorCode().getLang();
+		if (StringUtils.isEmpty(lang)) {
+			lang = "zh_tw";
+		}
+
+ 		Optional<ErrorCodeEntity> entity = errorCodeRepository.findByCategoryAndErrorCode(
+			ex.getErrorCode().getCategory(),
+ 			ex.getErrorCode().getCode(), 
+			lang);
  		resp.setCategory(ex.getErrorCode().getCategory());
  		resp.setErrorCode(ex.getErrorCode().getCode());
  		if(entity.isPresent()) {

@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.peazy.expense.enumerate.ExpenseErrorCodeEnumImpl;
+import com.peazy.expense.exception.ErrorCodeException;
 import com.peazy.expense.model.entity.MiscExpenseEntity;
 import com.peazy.expense.repository.MiscExpenseRepository;
 import com.peazy.expense.service.interfaces.MiscExpenseService;
@@ -24,7 +26,10 @@ public class MiscExpenseServiceImpl implements MiscExpenseService {
     private MiscExpenseRepository miscExpenseRepository;
 
     public List<MiscExpenseEntity> queryMiscExpenseBySupplier(String supplier, String fromDate,
-            String toDate) throws JsonProcessingException, ParseException {
+        String toDate) throws JsonProcessingException, ParseException {
+        if (StringUtils.isBlank(supplier)) {
+            throw new ErrorCodeException(ExpenseErrorCodeEnumImpl.SUPPLIER_IS_EMPTY);
+        }
         return miscExpenseRepository.queryExpense(supplier, DateUtils.formatDate(fromDate),
                 DateUtils.setCurrentDate(DateUtils.formatDate(toDate)));
     }

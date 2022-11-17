@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.peazy.expense.enumerate.ExpenseErrorCodeEnumImpl;
+import com.peazy.expense.exception.ErrorCodeException;
 import com.peazy.expense.model.args.MiscExpenseBean;
 import com.peazy.expense.model.entity.MiscExpenseEntity;
 import com.peazy.expense.model.request.AddMiscExpenseRequest;
@@ -60,8 +62,7 @@ public class MiscExpenseController {
                 }
             }
         } catch (Exception e) {
-            logger.error(ExceptionUtils.getStackTrace(e));
-            return HttpStatus.INTERNAL_SERVER_ERROR;
+            throw new ErrorCodeException(ExpenseErrorCodeEnumImpl.ADD_MISC_EXPENSE_FAIL);
         }
 
         return HttpStatus.OK;
@@ -79,8 +80,7 @@ public class MiscExpenseController {
                 }
             }
         } catch (Exception e) {
-            logger.error(ExceptionUtils.getStackTrace(e));
-            return HttpStatus.INTERNAL_SERVER_ERROR;
+            throw new ErrorCodeException(ExpenseErrorCodeEnumImpl.UPDATE_MISC_EXPENSE_FAIL);
         }
         return HttpStatus.OK;
     }
@@ -93,8 +93,7 @@ public class MiscExpenseController {
                 miscExpenseService.deleteMiscExpenses(request.getDeleteMiscExpenses());
             }
         } catch (Exception e) {
-            logger.error(ExceptionUtils.getStackTrace(e));
-            return HttpStatus.INTERNAL_SERVER_ERROR;
+            throw new ErrorCodeException(ExpenseErrorCodeEnumImpl.DETAIL_MISC_EXPENSE_FAIL);
         }
         return HttpStatus.OK;
     }
