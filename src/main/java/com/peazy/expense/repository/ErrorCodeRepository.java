@@ -18,5 +18,4 @@ public interface ErrorCodeRepository extends JpaRepository<ErrorCodeEntity, Long
 		@Param("errorCode")  String code, 
 		@Param("lang")  String lang);
 
-
 }
